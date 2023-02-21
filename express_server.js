@@ -7,15 +7,15 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com",
 };
 function generateRandomString() {
-    const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomString = '';
-    for (let i = 0; i < 6; i++) {
-      const randomIndex = Math.floor(Math.random() * alphanumeric.length);
-      randomString += alphanumeric[randomIndex];
-    }
-    return randomString;
+  const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+  for (let i = 0; i < 6; i++) {
+    const randomIndex = Math.floor(Math.random() * alphanumeric.length);
+    randomString += alphanumeric[randomIndex];
   }
-  
+  return randomString;
+}
+
 app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello");
@@ -45,8 +45,10 @@ app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
-app.post("/urls", (req, res) => {
-    console.log(req.body); // Log the POST request body to the console
-    res.send("Ok"); // Respond with 'Ok' (we will replace this)
-  });
 
+app.post("/urls", (req, res) => {
+  const shortURL = generateRandomString();
+  const longURL = req.body.longURL;
+  urlDatabase[shortURL] = longURL;
+  res.redirect(`/urls/${shortURL}`);
+});

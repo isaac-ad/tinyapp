@@ -6,15 +6,6 @@ const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
 };
-function generateRandomString() {
-  const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let randomString = '';
-  for (let i = 0; i < 6; i++) {
-    const randomIndex = Math.floor(Math.random() * alphanumeric.length);
-    randomString += alphanumeric[randomIndex];
-  }
-  return randomString;
-}
 
 app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
@@ -58,3 +49,10 @@ app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[id];
   res.redirect("/urls");
 });
+app.post("/urls/:id", (req, res) => {
+  const id = req.params.id;
+  const newLongURL = req.body.longURL;
+  urlDatabase[id].longURL = newLongURL;
+  res.redirect("/urls");
+});
+

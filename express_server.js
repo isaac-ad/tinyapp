@@ -85,13 +85,28 @@ app.post("/login", (req, res) => {
     res.cookie("username", username);
     res.redirect("/urls");
   } else {
-    res.status(200).send("logged in");
+    res.status(400).send("wrong username or password");
   }
 });
 app.post("/logout", (req, res) => {
   res.clearCookie("username");
   res.redirect("/urls");
 });
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+  if (email === "isaacadnanu@gmail.com" && password === "tinyapp") {
+    res.cookie("email", email);
+    res.redirect("/urls");
+  } else {
+    res.status(400).send("wrong password");
+  }
+});
+app.get("/register", (req, res) => {
+  const email = req.cookies.email;
+  const templateVars = { urls: urlDatabase, email: email };
+  res.render("register", templateVars);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);
 });

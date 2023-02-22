@@ -55,4 +55,18 @@ app.post("/urls/:id", (req, res) => {
   urlDatabase[id].longURL = newLongURL;
   res.redirect("/urls");
 });
+app.post('/login', (req, res) => {
+  const username = req.body.username;
+  // Your authentication logic goes here...
+
+  if (authenticated) {
+    // Set the "username" cookie with the value of the "username" form field
+    res.cookie('username', username);
+    // Redirect the user to the home page
+    res.redirect('/');
+  } else {
+    // Authentication failed, so redirect the user to the login page
+    res.redirect('/login');
+  }
+});
 

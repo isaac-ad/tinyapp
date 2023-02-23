@@ -5,33 +5,32 @@
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <% if (username) { %>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <span class="navbar-text">Logged in as <%= username %></span>
-        </div>
-        <form method="post" action="/logout" class="form-inline ml-auto">
-          <button type="submit" class="btn btn-outline-light">Log Out</button>
-        
-        </form>
-      </div>
+    <% if (!username) { %>
+      <nav>
+        <a href="/register">Register</a>
+        <a href="/login">Login</a>
+      </nav>
     <% } else { %>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/urls">My URLs</a>
-          <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-        </div>
-        <form method="GET" action="/login" class="form-inline ml-auto">
-          <label for="username" class="mr-sm-2">Username:</label>
-          <input type="text" id="username" name="username" class="form-control mr-sm-2">
-          <label for="password" class="mr-sm-2">Password:</label>
-          <input type="password" id="password" name="password" class="form-control mr-sm-2">
-          <button type="submit" class="btn btn-outline-light">Log in</button>
-        </form>
-        <form method="GET" action="/register" class="form-inline ml-auto">
-          <button type="submit" class="btn btn-outline-light">register</button>
-        </form>
-      </div>
+      <form method="POST" action="/logout">
+        <button>Logout</button>
+      </form>
     <% } %>
+    
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="/urls">My URLs</a>
+        <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+      </div>
+      <form method="GET" action="/login" class="form-inline ml-auto">
+        <label for="username" class="mr-sm-2">Username:</label>
+        <input type="text" id="username" name="username" class="form-control mr-sm-2">
+        <label for="password" class="mr-sm-2">Password:</label>
+        <input type="password" id="password" name="password" class="form-control mr-sm-2">
+        <button type="submit" class="btn btn-outline-light">Log in</button>
+      </form>
+      <form method="GET" action="/register" class="form-inline ml-auto">
+        <button type="submit" class="btn btn-outline-light">register</button>
+      </form>
+    </div>
   </nav>
 </header>

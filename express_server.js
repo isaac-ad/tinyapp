@@ -51,6 +51,9 @@ app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase, username: username };
   res.render("urls_index", templateVars);
 });
+app.get('/login', (req, res) => {
+  res.render('login');
+});
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString(10);
@@ -107,6 +110,7 @@ app.post("/register", (req, res) => {
     res.redirect("/urls");
   }
 });
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);
 });

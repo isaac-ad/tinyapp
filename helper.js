@@ -29,7 +29,7 @@ const users = {
         return users[userId];
       }
     }
-    return null;
+    return false;
   }
 
 module.exports = { getUserByEmail, users , generateRandomString };  

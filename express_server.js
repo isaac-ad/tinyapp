@@ -4,6 +4,18 @@ const app = express();
 const port = 8080;
 app.use(cookieParser());
 app.set("view engine", "ejs");
+const users = {
+  userRandomID: {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur",
+  },
+  user2RandomID: {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk",
+  },
+};
 const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
@@ -57,11 +69,12 @@ const generateRandomString = (length) => {
       Math.floor(Math.random() * charactersLength)
     );
   }
+  console.log("randomString", randomString);
   return randomString;
 };
 
 app.post("/urls", (req, res) => {
-  const shortURL = generateRandomString();
+  const shortURL = generateRandomString(10);
   const longURL = req.body.longURL;
   urlDatabase[shortURL] = longURL;
   res.redirect(`/urls/${shortURL}`);
@@ -92,22 +105,20 @@ app.post("/logout", (req, res) => {
   res.clearCookie("username");
   res.redirect("/urls");
 });
-app.post("/register", (req, res) => {
-  const { email, password } = req.body;
-  if (email === "isaacadnanu@gmail.com" && password === "tinyapp") {
-    res.cookie("email", email);
-    res.redirect("/urls");
-  } else {
-    res.status(400).send("wrong password");
-  }
-});
 app.get("/register", (req, res) => {
   const email = req.cookies.email;
   const templateVars = { urls: urlDatabase, email: email };
   res.render("register", templateVars);
 });
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+  const id = generateRandomString(10);
+  const newUser = { id, email, password };
+  users[id] = newUser;
+  res.cookie("user_id", id);
+  res.redirect("/urls");
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);
 });
-

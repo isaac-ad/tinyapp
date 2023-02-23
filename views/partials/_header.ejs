@@ -21,12 +21,15 @@
           <a class="nav-item nav-link" href="/urls">My URLs</a>
           <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
         </div>
-        <form method="post" action="/login" class="form-inline ml-auto">
+        <form method="GET" action="/login" class="form-inline ml-auto">
           <label for="username" class="mr-sm-2">Username:</label>
           <input type="text" id="username" name="username" class="form-control mr-sm-2">
           <label for="password" class="mr-sm-2">Password:</label>
           <input type="password" id="password" name="password" class="form-control mr-sm-2">
           <button type="submit" class="btn btn-outline-light">Log in</button>
+        </form>
+        <form method="GET" action="/register" class="form-inline ml-auto">
+          <button type="submit" class="btn btn-outline-light">register</button>
         </form>
       </div>
     <% } %>

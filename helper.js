@@ -32,4 +32,15 @@ const users = {
     return false;
   }
 
-module.exports = { getUserByEmail, users , generateRandomString };  
+  const urlsForUser = (urlDatabase, userID) => {
+    const result = {}
+
+    for (let shortURL in urlDatabase) {
+      if(urlDatabase[shortURL].userID === userID) {
+        result[shortURL] = urlDatabase[shortURL].longURL
+      }
+    }
+
+    return result
+  }
+module.exports = { getUserByEmail, users , generateRandomString, urlsForUser };  

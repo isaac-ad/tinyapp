@@ -1,36 +1,27 @@
-<header>
   <nav class="navbar navbar-expand-md navbar-dark bg-success">
     <a class="navbar-brand" href="/urls">TinyApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <% if (!username) { %>
-      <nav>
-        <a href="/register">Register</a>
-        <a href="/login">Login</a>
-      </nav>
-    <% } else { %>
-      <form method="POST" action="/logout">
-        <button>Logout</button>
-      </form>
-    <% } %>
-    
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+        <% if(!userid){ %>
+          <a class="nav-item nav-link" href="/register">Register</a>
+          <% } %>
+            <% if(!userid){ %>
+              <form method="GET"  action="/login">
+                <a class="nav-item nav-link" style='color:rgb(217, 34, 34)' href="/login">Login</a>
+                <% } else{ %>
+                  <form method="POST" action="/logout" >
+                    <h5>Logged in as: <%= username.email %> <button type="submit" class="btn btn-dark">Logout</button></h5>
+                  </form>
+                  <% } %>
+
+              </form>
       </div>
-      <form method="GET" action="/login" class="form-inline ml-auto">
-        <label for="username" class="mr-sm-2">Username:</label>
-        <input type="text" id="username" name="username" class="form-control mr-sm-2">
-        <label for="password" class="mr-sm-2">Password:</label>
-        <input type="password" id="password" name="password" class="form-control mr-sm-2">
-        <button type="submit" class="btn btn-outline-light">Log in</button>
-      </form>
-      <form method="GET" action="/register" class="form-inline ml-auto">
-        <button type="submit" class="btn btn-outline-light">register</button>
-      </form>
     </div>
   </nav>
 </header>

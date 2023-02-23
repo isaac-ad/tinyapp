@@ -1,21 +1,12 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const bcrypt = require('bcrypt');
+const { getUserByEmail, users , generateRandomString } = require("./helper");
 const app = express();
 const port = 8080;
 app.use(cookieParser());
 app.set("view engine", "ejs");
-const users = {
-  userRandomID: {
-    id: "userRandomID",
-    email: "user@example.com",
-    password: "purple-monkey-dinosaur",
-  },
-  user2RandomID: {
-    id: "user2RandomID",
-    email: "user2@example.com",
-    password: "dishwasher-funk",
-  },
-};
+
 const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
@@ -60,18 +51,6 @@ app.get("/urls", (req, res) => {
   const templateVars = { urls: urlDatabase, username: username };
   res.render("urls_index", templateVars);
 });
-const generateRandomString = (length) => {
-  let randomString = "";
-  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    randomString += characters.charAt(
-      Math.floor(Math.random() * charactersLength)
-    );
-  }
-  console.log("randomString", randomString);
-  return randomString;
-};
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString(10);
@@ -112,13 +91,22 @@ app.get("/register", (req, res) => {
 });
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
-  const id = generateRandomString(10);
-  const newUser = { id, email, password };
-  users[id] = newUser;
-  res.cookie("user_id", id);
-  res.redirect("/urls");
+  if (!email || !password) {
+    res.status(400).send("Email and password cannot be empty.");
+  } else if (getUserByEmail(email)) {
+    res.status(400).send("Email already exists.");
+  } else {
+    const userId = generateRandomString();
+    const newUser = {
+      id: userId,
+      email,
+      password: bcrypt.hashSync(password, 10),
+    };
+    users[userId] = newUser;
+    res.cookie("userid", userId);
+    res.redirect("/urls");
+  }
 });
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);
 });

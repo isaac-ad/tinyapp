@@ -10,7 +10,7 @@ const users = {
       password: "dishwasher-funk",
     },
   };
-  const generateRandomString = (length) => {
+  const generateRandomString = (length = 6) => {
     let randomString = "";
     const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
     const charactersLength = characters.length;

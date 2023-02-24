@@ -139,13 +139,15 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const user = getUserByEmail(email);
   if (!user) {
-    res.status(403).send("User with this email does not exist!");
-  } else if (!bcrypt.compareSync(password, user.password)) {
-    res.status(403).send("Invalid password");
-  } else {
-    req.cookies.userID = user.id;
-    res.redirect("/urls");
+   return res.status(403).send("User with this email does not exist!");
   }
+  
+  const passwordMatch = bcrypt.compareSync(password, user.password)
+  if (!passwordMatch) {
+   return res.status(403).send("Invalid password");
+  } 
+  res.cookie("userID", user.id);
+    res.redirect("/urls");
 });
 
 app.post("/logout", (req, res) => {
@@ -172,11 +174,11 @@ app.post("/register", (req, res) => {
   if (emailexist) {
     return res.status(400).send("Email already exists.");
   }
-  const userID = generateRandomString(4);
+  const userID = generateRandomString();
   const newUser = {
     id: userID,
     email,
-    password: bcrypt.hashSync(password, 4),
+    password: bcrypt.hashSync(password, 10),
   };
   users[userID] = newUser;
   res.cookie("userID", userID);

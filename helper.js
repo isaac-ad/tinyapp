@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const users = {
     userRandomID: {
       id: "userRandomID",
@@ -29,7 +30,7 @@ const users = {
         return users[userId];
       }
     }
-    return false;
+    return undefined;
   }
 
   const urlsForUser = (urlDatabase, userID) => {
@@ -43,4 +44,4 @@ const users = {
 
     return result
   }
-module.exports = { getUserByEmail, users , generateRandomString, urlsForUser };  
+module.exports = { getUserByEmail, users , generateRandomString, urlsForUser, bcrypt };  
